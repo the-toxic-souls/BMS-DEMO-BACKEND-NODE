@@ -12,7 +12,6 @@ const errorMiddleware = (
     const status: number = error.status || 500;
     const message: string | string[] =
       error.exception_message || "Something went wrong";
-
     !(error instanceof HttpException);
     res.status(status).json({ status: false, message });
   } catch (error) {

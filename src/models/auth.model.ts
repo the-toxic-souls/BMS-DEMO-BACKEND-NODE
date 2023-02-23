@@ -15,7 +15,7 @@ class Auth {
   @prop({ type: Schema.Types.ObjectId, required: true, auto: true })
   public _id: Schema.Types.ObjectId;
 
-  @prop({ type: String, required: true })
+  @prop({ type: String, required: true, unique: true, index: true })
   username: string;
 
   @prop({ type: String, required: true })

@@ -13,5 +13,14 @@ class AuthController {
       next(error);
     }
   };
+  public signin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const signinDto: SignupDto = req.body;
+      const verify = await this.authService.signin(signinDto);
+      res.status(201).json({ message: `Loogedin Successful` });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default AuthController;
