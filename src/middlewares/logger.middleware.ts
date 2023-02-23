@@ -3,7 +3,7 @@ import winston from 'winston'
 import logHandlers from '@handlers/logging'
 import Transport from 'winston-transport'
 import { HttpException } from '@/exceptions/HttpException';
-const logOption: string[] = JSON.parse(LOG_OPTIONS);
+const logOption: string[] = JSON.parse(LOG_OPTIONS || '["console"]');
 const transports: Transport[] = [];
 logOption.forEach(option => {
     if(!['console', 'file', 'database'].includes(option)) return;
