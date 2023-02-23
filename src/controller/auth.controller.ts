@@ -1,4 +1,5 @@
 import { SignupDto } from "@/dtos/auth.dto";
+import { Token } from "@/interfaces/auth.interface";
 import AuthService from "@/services/auth.service";
 import { NextFunction, Request, Response } from "express";
 
@@ -16,8 +17,8 @@ class AuthController {
   public signin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const signinDto: SignupDto = req.body;
-      const verify = await this.authService.signin(signinDto);
-      res.status(201).json({ message: `Loogedin Successful` });
+      const token: Token = await this.authService.signin(signinDto);
+      res.status(201).json({ message: token });
     } catch (error) {
       next(error);
     }
