@@ -6,5 +6,6 @@ export const {
   PORT,
   MONGO_HOST,
   MONGO_PORT,
-  MONGO_DB
+  MONGO_DB,
+  LOG_OPTIONS
 } = process.env;

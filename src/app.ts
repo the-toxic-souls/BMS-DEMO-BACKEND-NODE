@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import hpp from "hpp";
+import morgan from 'morgan';
 import { NODE_ENV, PORT } from "@config";
 import { connect, set } from "mongoose";
 import { dbConnection } from "@/database";
@@ -9,6 +10,7 @@ import {
   errorMiddleware,
   notFoundMiddleware,
 } from "./middlewares/error.middleware";
+import {logger, stream} from "./middlewares/logger.middleware";
 class App {
   public app: express.Application;
   public env: string;
@@ -25,16 +27,16 @@ class App {
   }
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`=================================`);
-      console.log(`======= ENV: ${this.env} ========`);
-      console.log(`🚀 App listening on the port ${this.port}`);
+      logger.info(`=================================`);
+      logger.info(`======= ENV: ${this.env} ========`);
+      logger.info(`🚀 App listening on the port ${this.port}`);
     });
   }
   private async connectToDB() {
     set("strictQuery", false);
     await connect(dbConnection);
-    console.log(`💾 Database Connected`);
-    console.log(`=================================`);
+    logger.info(`💾 Database Connected`);
+    logger.info(`=================================`);
   }
   private initializeRoutes(routes: Routes[]) {
     routes.forEach((route) => {
@@ -42,6 +44,7 @@ class App {
     });
   }
   private initializeMiddleware() {
+    this.app.use(morgan('dev',{stream,skip: function (req, res) { return res.statusCode >= 500 }}))
     this.app.use(cors());
     this.app.use(hpp()); // HPP puts array parameters in req.query and/or req.body aside and just selects the last parameter value. You add the middleware and you are done.
     this.app.use(express.json());
@@ -50,6 +53,8 @@ class App {
   private initializeErrorHandling() {
     this.app.use(notFoundMiddleware);
     this.app.use(errorMiddleware);
+    process.on('uncaughtException', e => { logger.error(e), process.exit(1)});
+    process.on('unhandledRejection', e => logger.error(e));
   }
 }
 
