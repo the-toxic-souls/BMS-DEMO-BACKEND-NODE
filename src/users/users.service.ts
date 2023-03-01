@@ -1,7 +1,7 @@
 import { JWT_EXPIRES_IN, JWT_SECRET_KEY } from "@/config";
 import { SignupDto } from "@/users/dtos/auth.dto";
 import { HttpException } from "@/exceptions/HttpException";
-import { Token } from "@/users/interfaces/auth.interface";
+import { Token } from "@/interfaces/auth.interface";
 import AuthModel from "@/users/entities/auth.model";
 import {hash, genSalt, compare} from 'bcrypt';
 import jwt from 'jsonwebtoken';

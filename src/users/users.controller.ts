@@ -1,5 +1,5 @@
 import { SignupDto } from "@/users/dtos/auth.dto";
-import { Token } from "@/users/interfaces/auth.interface";
+import { Token } from "@/interfaces/auth.interface";
 import { NextFunction, Request, Response } from "express";
 import UserService from "@/users/users.service";
 
