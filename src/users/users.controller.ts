@@ -1,14 +1,14 @@
-import { SignupDto } from "@/dtos/auth.dto";
-import { Token } from "@/interfaces/auth.interface";
-import AuthService from "@/services/auth.service";
+import { SignupDto } from "@/users/dtos/auth.dto";
+import { Token } from "@/users/interfaces/auth.interface";
 import { NextFunction, Request, Response } from "express";
+import UserService from "@/users/users.service";
 
-class AuthController {
-  public authService = new AuthService();
+class UserController {
+  public userService = new UserService();
   public signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const signupDto: SignupDto = req.body;
-      const signUpID = await this.authService.signup(signupDto);
+      const signUpID = await this.userService.signup(signupDto);
       res.status(201).json({ message: `${signUpID} created successfully` });
     } catch (error) {
       next(error);
@@ -17,11 +17,11 @@ class AuthController {
   public signin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const signinDto: SignupDto = req.body;
-      const token: Token = await this.authService.signin(signinDto);
+      const token: Token = await this.userService.signin(signinDto);
       res.status(201).json({ message: token });
     } catch (error) {
       next(error);
     }
   };
 }
-export default AuthController;
+export default UserController;

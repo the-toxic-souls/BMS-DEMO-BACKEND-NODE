@@ -1,4 +1,4 @@
-import MovieService from "@/services/movies.service";
+import MovieService from "@/movies/movies.service";
 import { NextFunction, Request, Response } from "express";
 
 class MovieController {

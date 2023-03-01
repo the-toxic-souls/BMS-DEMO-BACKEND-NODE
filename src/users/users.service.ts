@@ -1,11 +1,11 @@
 import { JWT_EXPIRES_IN, JWT_SECRET_KEY } from "@/config";
-import { SignupDto } from "@/dtos/auth.dto";
+import { SignupDto } from "@/users/dtos/auth.dto";
 import { HttpException } from "@/exceptions/HttpException";
-import { Token } from "@/interfaces/auth.interface";
-import AuthModel from "@/models/auth.model";
+import { Token } from "@/users/interfaces/auth.interface";
+import AuthModel from "@/users/entities/auth.model";
 import {hash, genSalt, compare} from 'bcrypt';
 import jwt from 'jsonwebtoken';
-class AuthService {
+class UserService {
   public signup = async (signupDto: SignupDto) => {
     const { username, password } = signupDto;
     const salt = await genSalt(12);
@@ -29,4 +29,4 @@ class AuthService {
   };
 }
 
-export default AuthService;
+export default UserService;

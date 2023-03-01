@@ -1,7 +1,6 @@
-import AuthController from "@/controller/auth.controller";
-import MovieController from "@/controller/movies.controller";
+import MovieController from "@/movies/movies.controller";
 import { Routes } from "@/interfaces/routes.interface";
-import AuthMiddleware from "@/middlewares/auth.middleware";
+import AuthMiddleware from "@/auth/auth.middleware";
 import { Router } from "express";
 
 class MovieRoutes implements Routes {

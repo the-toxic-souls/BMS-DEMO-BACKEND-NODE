@@ -1,7 +1,7 @@
 import App from "@/app";
-import AuthRoutes from "@routes/auth.route";
-import MovieRoutes from "./routes/movie.route";
+import MovieRoutes from "@/movies/movie.route";
+import UserRoutes from "@/users/users.route";
 
-const app = new App([new AuthRoutes(), new MovieRoutes]);
+const app = new App([new UserRoutes(), new MovieRoutes]);
 
 app.listen();
