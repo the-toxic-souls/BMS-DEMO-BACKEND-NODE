@@ -1,4 +1,4 @@
-import { SignupDto } from "@/users/dtos/auth.dto";
+import { UserDTO } from "@/users/dtos/auth.dto";
 import { Routes } from "@/interfaces/routes.interface";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import { Router } from "express";
@@ -14,12 +14,12 @@ class UserRoutes implements Routes {
   private initializedRoutes() {
     this.router.post(
       `${this.path}/signup`,
-      validationMiddleware(SignupDto, "body"),
+      validationMiddleware(UserDTO, "body"),
       this.userController.signup
     );
     this.router.post(
       `${this.path}/signin`,
-      validationMiddleware(SignupDto, "body"),
+      validationMiddleware(UserDTO, "body"),
       this.userController.signin
     );
   }
