@@ -1,12 +1,12 @@
 import { JWT_EXPIRES_IN, JWT_SECRET_KEY } from "@/config";
-import { SignupDto } from "@/users/dtos/auth.dto";
+import { UserDTO } from "@/users/dtos/auth.dto";
 import { HttpException } from "@/exceptions/HttpException";
 import { Token } from "@/interfaces/auth.interface";
 import AuthModel from "@/users/entities/auth.model";
 import {hash, genSalt, compare} from 'bcrypt';
 import jwt from 'jsonwebtoken';
 class UserService {
-  public signup = async (signupDto: SignupDto) => {
+  public signup = async (signupDto: UserDTO) => {
     const { username, password } = signupDto;
     const salt = await genSalt(12);
     const hashedPassword = await hash(password, salt);
@@ -17,7 +17,7 @@ class UserService {
     const signupID = await user.save()
     return signupID._id;
   };
-  public signin = async (signinDto: SignupDto): Promise<Token> => {
+  public signin = async (signinDto: UserDTO): Promise<Token> => {
     const { username, password } = signinDto;
     const user = await AuthModel.findOne({username: username});
     const token: string = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET_KEY, {
