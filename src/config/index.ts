@@ -7,5 +7,7 @@ export const {
   MONGO_HOST,
   MONGO_PORT,
   MONGO_DB,
-  LOG_OPTIONS
+  LOG_OPTIONS,
+  JWT_SECRET_KEY,
+  JWT_EXPIRES_IN
 } = process.env;

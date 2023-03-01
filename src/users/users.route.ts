@@ -1,13 +1,13 @@
-import AuthController from "@/controller/auth.controller";
-import { SignupDto } from "@/dtos/auth.dto";
+import { SignupDto } from "@/users/dtos/auth.dto";
 import { Routes } from "@/interfaces/routes.interface";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import { Router } from "express";
+import UserController from "@/users/users.controller";
 
-class AuthRoutes implements Routes {
+class UserRoutes implements Routes {
   public path = "/auth";
   public router = Router();
-  public authController = new AuthController();
+  public userController = new UserController();
   constructor() {
     this.initializedRoutes();
   }
@@ -15,14 +15,14 @@ class AuthRoutes implements Routes {
     this.router.post(
       `${this.path}/signup`,
       validationMiddleware(SignupDto, "body"),
-      this.authController.signup
+      this.userController.signup
     );
     this.router.post(
       `${this.path}/signin`,
       validationMiddleware(SignupDto, "body"),
-      this.authController.signin
+      this.userController.signin
     );
   }
 }
 
-export default AuthRoutes;
+export default UserRoutes;
