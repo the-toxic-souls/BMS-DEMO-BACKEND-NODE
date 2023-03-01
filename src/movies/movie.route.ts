@@ -1,6 +1,6 @@
 import MovieController from "@/movies/movies.controller";
 import { Routes } from "@/interfaces/routes.interface";
-import AuthMiddleware from "@/auth/auth.middleware";
+import AuthMiddleware from "@/middlewares/auth.middleware";
 import { Router } from "express";
 
 class MovieRoutes implements Routes {
