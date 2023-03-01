@@ -1,7 +1,7 @@
 import { JWT_SECRET_KEY } from "@/config";
 import { HttpException } from "@/exceptions/HttpException";
 import { NextFunction, Request, Response } from "express";
-import jwt,{JsonWebTokenError} from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 class AuthMiddleware {
     public auth = async (req: Request, res: Response, next: NextFunction) => {
