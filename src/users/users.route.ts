@@ -3,7 +3,7 @@ import { Routes } from "@/interfaces/routes.interface";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import { Router } from "express";
 import UserController from "@/users/users.controller";
-
+import AuthMiddleware from "@/middlewares/auth.middleware";
 class UserRoutes implements Routes {
   public path = "/auth";
   public router = Router();
@@ -21,6 +21,11 @@ class UserRoutes implements Routes {
       `${this.path}/signin`,
       validationMiddleware(UserDTO, "body"),
       this.userController.signin
+    );
+    this.router.get(
+      `${this.path}/logout`,
+      AuthMiddleware.auth,
+      this.userController.logout
     );
   }
 }

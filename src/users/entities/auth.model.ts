@@ -21,6 +21,9 @@ class Auth {
   @prop({ type: String, required: true })
   password: string;
 
+  @prop({ type: String, default: false })
+  status: boolean;
+
   @prop({ type: Date })
   public deleted_at: Date;
 
