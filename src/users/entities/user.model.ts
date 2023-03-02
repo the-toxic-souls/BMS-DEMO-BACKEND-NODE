@@ -11,15 +11,24 @@ import { Schema } from "mongoose";
     },
   },
 })
-class Auth {
+class User {
   @prop({ type: Schema.Types.ObjectId, required: true, auto: true })
   public _id: Schema.Types.ObjectId;
 
+  @prop({ type: String })
+  public name: string;
+
   @prop({ type: String, required: true, unique: true, index: true })
-  username: string;
+  public phone: string;
+
+  @prop({ type: String, required: true, unique: true, index: true })
+  public username: string;
 
   @prop({ type: String, required: true })
-  password: string;
+  public password: string;
+
+  @prop({ type: String, default: false })
+  public status: boolean;
 
   @prop({ type: Date })
   public deleted_at: Date;
@@ -28,6 +37,6 @@ class Auth {
   public restored_at: Date;
 }
 
-const AuthModel = getModelForClass(Auth);
+const UserModel = getModelForClass(User);
 
-export default AuthModel;
+export default UserModel;
