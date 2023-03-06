@@ -1,15 +1,17 @@
-import { IsArray, IsMobilePhone, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNameAlreadyExist } from "@/custom_decorators";
+import { IsArray, IsEnum, IsMobilePhone, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
-export class CreateDTO{
+export class TheatreDTO{
     @IsNotEmpty()
     @IsString()
+    @IsNameAlreadyExist({message: "Theatre already exists"})
     public name: string
 
     @IsNotEmpty()
     @IsString()
     public address: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsMobilePhone()
     public phone: string;
 
@@ -17,9 +19,17 @@ export class CreateDTO{
     @IsNumber()
     public seat: number;
 
-    @IsNotEmpty()
-    @IsArray()
-    public category: string[];
+    @IsOptional()
+    @IsEnum(["balcony_class", "middle_class", "lower_class"])
+    seat_layouts: string;
+
+    @IsOptional()
+    @IsEnum(["proscenium", "thrust", "arena", "found"])
+    types: string;
+
+    @IsOptional()
+    @IsEnum(["a/c", "non-a/c", "both"])
+    public category: string;
 
     @IsOptional()
     @IsString()

@@ -1,11 +1,11 @@
+import { IsNameAlreadyExist } from "@/custom_decorators";
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { IsMovieAlreadyExist } from "../custom_decorators";
 
-export class CreateDTO {
+export class MovieDTO {
 
     @IsNotEmpty()
     @IsString()
-    @IsMovieAlreadyExist({
+    @IsNameAlreadyExist({
         message: 'Movie $value already exists. Choose another name.',
       })
     name: string;
@@ -35,7 +35,7 @@ export class UpdateDTO {
 
   @IsOptional()
   @IsString()
-  @IsMovieAlreadyExist({
+  @IsNameAlreadyExist({
       message: 'Movie $value already exists. Choose another name.',
     })
   name?: string;

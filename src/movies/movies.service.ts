@@ -1,6 +1,6 @@
 import MovieModel from "@/movies/entities/movie.model";
-import { isObjectIdOrHexString, ObjectId, Types } from "mongoose";
-import { CreateDTO, UpdateDTO } from "@/movies/dtos/movie.dto";
+import { ObjectId, Types } from "mongoose";
+import { MovieDTO, UpdateDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
 import { HttpException } from "@/exceptions/HttpException";
 
@@ -9,7 +9,7 @@ class MovieService {
     const movies: Movie[] = await MovieModel.find({ deleted_at: null });
     return movies;
   };
-  public create = async (movieData: CreateDTO): Promise<ObjectId> => {
+  public create = async (movieData: MovieDTO): Promise<ObjectId> => {
     const newData = await MovieModel.create({
       name: movieData.name,
       release_date: movieData.release_date,

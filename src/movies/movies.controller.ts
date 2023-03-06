@@ -1,6 +1,6 @@
 import MovieService from "@/movies/movies.service";
 import { NextFunction, Request, Response } from "express";
-import { CreateDTO, UpdateDTO } from "@/movies/dtos/movie.dto";
+import { MovieDTO, UpdateDTO } from "@/movies/dtos/movie.dto";
 
 class MovieController {
     public movieService = new MovieService();
@@ -10,7 +10,7 @@ class MovieController {
     }
     public create = async( req: Request, res: Response, next: NextFunction) => {
         try{
-            const movieData: CreateDTO = req.body;
+            const movieData: MovieDTO = req.body;
             const id = await this.movieService.create(movieData);
            res.status(201).json({status: true, message: `${id} created successfully`})
         }catch (err) {
