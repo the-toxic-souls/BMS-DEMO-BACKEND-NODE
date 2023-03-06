@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express"
 import TheatreService from "@/theatres/theatre.service";
 import { TheatreDTO } from "@/theatres/dtos/theatre.dto";
+import { TheatreBase } from "@/theatres/interfaces/theatre.interface";
 
 class TheatreController{
     public theatreService = new TheatreService();
     public list = async (req: Request, res: Response, next: NextFunction) => {
-        const f = await this.theatreService.list()
-        res.status(200).json(f)
+        const getList: TheatreBase[] = await this.theatreService.list()
+        res.status(200).json({status: true, data: getList})
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try{
