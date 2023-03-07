@@ -1,5 +1,5 @@
 
-export interface TheatreBase {
+export interface Theatre {
     name: string;
     address: string;
     phone?: string;

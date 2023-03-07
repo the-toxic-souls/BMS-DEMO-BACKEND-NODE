@@ -1,13 +1,18 @@
 import { TheatreDTO } from "@/theatres/dtos/theatre.dto";
 import TheatreModel from "@/theatres/entities/theatre.entity";
 import { ObjectId, Types } from "mongoose";
-import { TheatreBase } from "@/theatres/interfaces/theatre.interface";
+import { Theatre } from "@/theatres/interfaces/theatre.interface";
 import CityModel from "@/cities/entities/city.entity";
 import { HttpException } from "@/exceptions/HttpException";
 
 class TheatreService {
-    public list = async (): Promise<TheatreBase[]> => {
+    public list = async (): Promise<Theatre[]> => {
         return await TheatreModel.find({ deleted_at: null });
+    }
+    public getById = async (id: string): Promise<Theatre> => {
+        const theatre: Theatre = await TheatreModel.findById({_id: new Types.ObjectId(id), deleted_at: null});
+        if (!theatre) throw new HttpException(400, "theatre not found")
+        return theatre;
     }
     public create = async (theatreDTO: TheatreDTO): Promise<ObjectId> => {
         const city = await CityModel.findById(theatreDTO.city_id);
@@ -16,10 +21,21 @@ class TheatreService {
         const theatre = await newData.save();
         return theatre._id;
     }
-
+    public update = async (
+        id: string,
+        theatreDTO: TheatreDTO
+      ): Promise<ObjectId> => {
+        const theatre = await this.getById(id);
+        if (!theatre ) throw new HttpException(400, "Theatre not found")
+        const getUpdatedData = await TheatreModel.findByIdAndUpdate(
+          new Types.ObjectId(id),
+          theatreDTO
+        );
+        return getUpdatedData._id;
+      };
     public delete = async (id: string): Promise<void> => {
-        const find = await TheatreModel.findById(new Types.ObjectId(id));
-        if (!find) throw new HttpException(400, "id not found");
+        const theatre = await this.getById(id);
+        if (!theatre) throw new HttpException(400, "theatre not found");
         const updateMovie = await TheatreModel.updateOne(
           { _id: new Types.ObjectId(id) },
           {
@@ -30,7 +46,7 @@ class TheatreService {
           { upsert: false, new: false }
         );
         if (!updateMovie.modifiedCount)
-          throw new HttpException(409, `${find.id} already deleted`);
+          throw new HttpException(409, `${id} already deleted`);
       };
 }
 

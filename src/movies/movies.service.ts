@@ -5,10 +5,15 @@ import { Movie } from "@/movies/interfaces/movie";
 import { HttpException } from "@/exceptions/HttpException";
 
 class MovieService {
-  public getAllMovie = async (): Promise<Movie[]> => {
+  public list = async (): Promise<Movie[]> => {
     const movies: Movie[] = await MovieModel.find({ deleted_at: null });
     return movies;
   };
+  public getById = async (id: string): Promise<Movie> => {
+    const movie: Movie = await MovieModel.findById({_id: new Types.ObjectId(id), deleted_at: null});
+    if (!movie) throw new HttpException(400, "movie not found")
+    return movie;
+}
   public create = async (movieData: MovieDTO): Promise<ObjectId> => {
     const newData = await MovieModel.create(movieData);
     const createdData = await newData.save();
@@ -18,6 +23,8 @@ class MovieService {
     id: string,
     movieData: MovieDTO
   ): Promise<ObjectId> => {
+    const movie = await this.getById(id);
+    if (!movie) throw new HttpException(400, "movie not found");
     const getUpdatedData = await MovieModel.findByIdAndUpdate(
       new Types.ObjectId(id),
       movieData
@@ -25,8 +32,8 @@ class MovieService {
     return getUpdatedData.id;
   };
   public delete = async (id: string): Promise<void> => {
-    const find = await MovieModel.findById(new Types.ObjectId(id));
-    if (!find) throw new HttpException(400, "id not found");
+    const movie = await this.getById(id);
+    if (!movie) throw new HttpException(400, "movie not found");
     const updateMovie = await MovieModel.updateOne(
       { _id: new Types.ObjectId(id) },
       {
@@ -37,7 +44,7 @@ class MovieService {
       { upsert: false, new: false }
     );
     if (!updateMovie.modifiedCount)
-      throw new HttpException(409, `${find.id} already deleted`);
+      throw new HttpException(409, `${id} already deleted`);
   };
 }
 export default MovieService;

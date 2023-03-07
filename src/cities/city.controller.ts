@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import CityService from "@/cities/city.service";
 import { CityDTO } from "@/cities/dtos/city.dto";
+import { City } from "@/cities/interfaces/city.interface";
 
 class CityController {
     public cityService = new CityService();
     public list = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const getList = await this.cityService.list()
+            const getList: City[] = await this.cityService.list()
             res.status(200).json({status: true, data: getList})
         }catch(err){
             next(err);

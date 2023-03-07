@@ -4,7 +4,7 @@ import { Schema } from "mongoose";
 @ModelOptions({
   schemaOptions: {
      collection: 'theatres',
-     versionKey: 'test',
+     versionKey: false,
      timestamps: {
        createdAt: 'created_at',
        updatedAt: 'updated_at'
