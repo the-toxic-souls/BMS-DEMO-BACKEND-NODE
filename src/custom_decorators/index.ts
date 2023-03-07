@@ -14,8 +14,6 @@ export class IsNameAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   async validate(name: any, args: ValidationArguments) {
-    console.log(args.targetName);
-
     if (args.targetName === "MovieDTO") {
       return await MovieModel.findOne({ name: name }).then((movie) => {
         if (movie) return false;

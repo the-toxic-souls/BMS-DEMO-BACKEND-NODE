@@ -15,7 +15,7 @@ class TheatreRoutes implements Routes {
         this.router.get(`${this.path}/list`, this.theatreController.list);
         this.router.post(`${this.path}/create`, AuthMiddleware.auth, validationMiddleware(TheatreDTO, 'body'), this.theatreController.create);
         // this.router.put(`${this.path}/update/:id`, AuthMiddleware.auth, validationMiddleware(UpdateDTO), this.theatreController.update);
-        // this.router.delete(`${this.path}/delete/:id`, AuthMiddleware.auth, this.theatreController.delete);
+        this.router.delete(`${this.path}/delete/:id`, AuthMiddleware.auth, this.theatreController.delete);
     }
 }
 export default TheatreRoutes;

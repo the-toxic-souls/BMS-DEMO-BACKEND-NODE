@@ -1,6 +1,6 @@
 import MovieModel from "@/movies/entities/movie.model";
 import { ObjectId, Types } from "mongoose";
-import { MovieDTO, UpdateDTO } from "@/movies/dtos/movie.dto";
+import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
 import { HttpException } from "@/exceptions/HttpException";
 
@@ -10,20 +10,13 @@ class MovieService {
     return movies;
   };
   public create = async (movieData: MovieDTO): Promise<ObjectId> => {
-    const newData = await MovieModel.create({
-      name: movieData.name,
-      release_date: movieData.release_date,
-      duration: movieData.duration,
-      rating: movieData.rating,
-      genre: movieData.genre,
-      tagline: movieData.tagline,
-    });
+    const newData = await MovieModel.create(movieData);
     const createdData = await newData.save();
     return createdData._id;
   };
   public update = async (
     id: string,
-    movieData: UpdateDTO
+    movieData: MovieDTO
   ): Promise<ObjectId> => {
     const getUpdatedData = await MovieModel.findByIdAndUpdate(
       new Types.ObjectId(id),
@@ -44,7 +37,7 @@ class MovieService {
       { upsert: false, new: false }
     );
     if (!updateMovie.modifiedCount)
-      throw new HttpException(409, `${find.id} already exists`);
+      throw new HttpException(409, `${find.id} already deleted`);
   };
 }
 export default MovieService;

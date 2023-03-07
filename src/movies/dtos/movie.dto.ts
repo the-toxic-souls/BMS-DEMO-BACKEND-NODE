@@ -1,5 +1,5 @@
 import { IsNameAlreadyExist } from "@/custom_decorators";
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, validate, ValidateIf, ValidateNested } from "class-validator";
 
 export class MovieDTO {
 
@@ -22,6 +22,11 @@ export class MovieDTO {
     @IsNumber()
     rating: number;
 
+    @ValidateIf((o)=> o.rating !== undefined)
+    @IsString()
+    rating_source: string;
+
+
     @IsOptional()
     @IsArray()
     genre: string[];
@@ -29,34 +34,16 @@ export class MovieDTO {
     @IsOptional()
     @IsString()
     tagline: string;
-}
 
-export class UpdateDTO {
+    @IsOptional()
+    @IsArray()
+    directors?: string[];
 
-  @IsOptional()
-  @IsString()
-  @IsNameAlreadyExist({
-      message: 'Movie $value already exists. Choose another name.',
-    })
-  name?: string;
+    @IsOptional()
+    @IsArray()
+    writers?: string[];
 
-  @IsOptional()
-  @IsString()
-  release_date?: Date;
-
-  @IsOptional()
-  @IsNumber()
-  duration?: number;
-
-  @IsOptional()
-  @IsNumber()
-  rating?: number;
-
-  @IsOptional()
-  @IsArray()
-  genre?: string[];
-
-  @IsOptional()
-  @IsString()
-  tagline?: string;
+    @IsOptional()
+    @IsArray()
+    casts?: string[];
 }
