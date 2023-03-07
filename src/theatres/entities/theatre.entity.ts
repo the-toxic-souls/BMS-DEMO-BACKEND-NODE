@@ -34,11 +34,14 @@ export class Theatre {
   @Prop({ type: String, required: false, enum: ["proscenium", "thrust", "arena", "found"], default: "found", index: true})
   public types: string;
 
-  @Prop({ type: String, required: false, enum: ["a/c", "non-a/c", "both"], default: "non-a/c", index: true })
+  @Prop({ type: String, required: false, enum: ["ac", "non-ac", "both"], default: "non-a/c", index: true })
   public category: string;
 
   @Prop({ type: String, required: false })
   public description: string;
+
+  @Prop({ type: Schema.Types.ObjectId, ref: 'cities'})
+  city_id: string;
 
   @Prop({ type: Date })
   public deleted_at: Date;
