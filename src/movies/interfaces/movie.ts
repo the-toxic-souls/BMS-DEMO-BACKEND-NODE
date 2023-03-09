@@ -1,7 +1,6 @@
 import { Date, Types } from "mongoose";
 
 export interface Movie{
-    _id: Types.ObjectId;
     name: string;
     release_date: Date;
     duration: number;

@@ -27,11 +27,23 @@ class Movie {
     @Prop({ type: Number, required: false, default: 0.0})
     public rating: number;
 
+    @Prop({ type: String, required: false, default: ''})
+    public rating_source: string;
+
     @Prop({ type: String, required: false, default: []})
     public genre: string[];
 
     @Prop({ type: String, required: false, default: ''})
     public tagline: string;
+
+    @Prop({ type: String, required: false, default: [] })
+    public directors: string[];
+
+    @Prop({ type: String, required: false, default: [] })
+    public casts: string[];
+
+    @Prop({ type: String, required: false, default: [] })
+    public writers: string[];
 
     @Prop({ type: Date })
     public deleted_at: Date;
