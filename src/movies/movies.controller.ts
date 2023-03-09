@@ -2,13 +2,28 @@ import MovieService from "@/movies/movies.service";
 import { NextFunction, Request, Response } from "express";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
+import { Paginations } from "@/dtos/Paginaion";
 
 class MovieController {
     public movieService = new MovieService();
     public list = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const getMovies: Movie[] = await this.movieService.list();
+            let pagination = {
+                page: +req.query.page || 1,
+                limit: +req.query.limit || 5
+            };
+            const getMovies: Movie[] = await this.movieService.list(pagination);
             res.status(200).json({status: true, data: getMovies})
+        }catch(err){
+            console.log(err);
+
+            next(err);
+        }
+    }
+    public count = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const getMoviesCount: number = await this.movieService.count();
+            res.status(200).json({status: true, count: getMoviesCount})
         }catch(err){
             next(err);
         }

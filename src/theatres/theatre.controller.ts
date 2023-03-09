@@ -3,12 +3,17 @@ import TheatreService from "@/theatres/theatre.service";
 import { TheatreDTO } from "@/theatres/dtos/theatre.dto";
 import { Theatre } from "@/theatres/interfaces/theatre.interface";
 import { ObjectId } from "mongoose";
+import { Paginations } from "@/dtos/Paginaion";
 
 class TheatreController{
     public theatreService = new TheatreService();
     public list = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const getTheatres: Theatre[] = await this.theatreService.list()
+            let pagination = {
+                page: +req.query.page || 1,
+                limit: +req.query.limit || 5
+            };
+            const getTheatres: Theatre[] = await this.theatreService.list(pagination)
             res.status(200).json({status: true, data: getTheatres})
         }catch(err){
             next(err);

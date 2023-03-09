@@ -4,10 +4,12 @@ import { ObjectId, Types } from "mongoose";
 import { Theatre } from "@/theatres/interfaces/theatre.interface";
 import CityModel from "@/cities/entities/city.entity";
 import { HttpException } from "@/exceptions/HttpException";
+import { Paginations } from "@/dtos/Paginaion";
 
 class TheatreService {
-    public list = async (): Promise<Theatre[]> => {
-        return await TheatreModel.find({ deleted_at: null });
+    public list = async (pagination: Paginations): Promise<Theatre[]> => {
+        const { page, limit } = pagination;
+        return await TheatreModel.find({ deleted_at: null }).skip((page-1) * limit).limit(limit);
     }
     public getById = async (id: string): Promise<Theatre> => {
         const theatre: Theatre = await TheatreModel.findById({_id: new Types.ObjectId(id), deleted_at: null});

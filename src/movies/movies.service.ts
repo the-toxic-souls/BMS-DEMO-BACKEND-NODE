@@ -3,11 +3,16 @@ import { ObjectId, Types } from "mongoose";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
 import { HttpException } from "@/exceptions/HttpException";
+import { Paginations } from "@/dtos/Paginaion";
 
 class MovieService {
-  public list = async (): Promise<Movie[]> => {
-    const movies: Movie[] = await MovieModel.find({ deleted_at: null });
-    return movies;
+  public list = async (pagination: Paginations): Promise<Movie[]> => {
+    const { page, limit } = pagination;
+    return await MovieModel.find({ deleted_at: null }).skip((page-1) * limit).limit(limit);
+  };
+  public count = async (): Promise<number> => {
+    const moviesCount = await MovieModel.count({ deleted_at: null});
+    return moviesCount;
   };
   public getById = async (id: string): Promise<Movie> => {
     const movie: Movie = await MovieModel.findById({_id: new Types.ObjectId(id), deleted_at: null});

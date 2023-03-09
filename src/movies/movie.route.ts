@@ -4,6 +4,7 @@ import AuthMiddleware from "@/middlewares/auth.middleware";
 import { Router } from "express";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
+import { Paginations } from "@/dtos/Paginaion";
 
 class MovieRoutes implements Routes {
    public path: string = '/movies';
@@ -13,7 +14,8 @@ class MovieRoutes implements Routes {
     this.initializedRoutes();
    }
    private initializedRoutes(){
-      this.router.get(`${this.path}/list`, this.movieController.list);
+      this.router.get(`${this.path}/list`, validationMiddleware(Paginations, 'query'), this.movieController.list);
+      this.router.get(`${this.path}/count`, this.movieController.count);
       this.router.get(`${this.path}/get/:id`, this.movieController.getById);
       this.router.post(`${this.path}/create`, AuthMiddleware.auth, validationMiddleware(MovieDTO, 'body'), this.movieController.create);
       this.router.put(`${this.path}/update/:id`, AuthMiddleware.auth, validationMiddleware(MovieDTO), this.movieController.update);
