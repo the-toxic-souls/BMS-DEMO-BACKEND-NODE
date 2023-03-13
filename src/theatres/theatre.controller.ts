@@ -3,7 +3,7 @@ import TheatreService from "@/theatres/theatre.service";
 import { TheatreDTO } from "@/theatres/dtos/theatre.dto";
 import { Theatre } from "@/theatres/interfaces/theatre.interface";
 import { ObjectId } from "mongoose";
-import { Paginations } from "@/dtos/Paginaion";
+import { TheatresMoviesDTO } from "@/theatres/dtos/theatres.movies.dto";
 
 class TheatreController{
     public theatreService = new TheatreService();
@@ -32,6 +32,15 @@ class TheatreController{
         try{
             const theatreDTO: TheatreDTO = req.body;
             const id = await this.theatreService.create(theatreDTO)
+            res.status(201).json({status: true, message: `${id} created successfully` })
+        }catch(err){
+            next(err);
+        }
+    }
+    public theatreMovieCreate = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const theatreMovieDTO: TheatresMoviesDTO = req.body;
+            const id = await this.theatreService.theatreMovieCreate(theatreMovieDTO)
             res.status(201).json({status: true, message: `${id} created successfully` })
         }catch(err){
             next(err);

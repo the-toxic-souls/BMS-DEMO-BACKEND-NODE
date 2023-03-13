@@ -18,7 +18,7 @@ export class MovieDTO {
     @IsNumber()
     duration: number;
 
-    @IsOptional()
+    @ValidateIf((o)=> o.rating_source !== undefined)
     @IsNumber()
     rating: number;
 

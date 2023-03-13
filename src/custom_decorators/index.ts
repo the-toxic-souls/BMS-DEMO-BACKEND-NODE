@@ -8,6 +8,8 @@ import {
 import MovieModel from "@/movies/entities/movie.model";
 import TheatreModel from "@/theatres/entities/theatre.entity";
 import CityModel from "@/cities/entities/city.entity";
+import TheatresMoviesModel from "@/theatres/entities/theatres_movies.entities";
+import { ShowTimes } from "@/theatres/dtos/theatres.movies.dto";
 
 @ValidatorConstraint({ async: true })
 export class IsNameAlreadyExistConstraint

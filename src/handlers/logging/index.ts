@@ -1,3 +1,4 @@
 import console from "./console";
 import file from "./file";
-export default {console, file};
+import database from "./database";
+export default {console, file, database};

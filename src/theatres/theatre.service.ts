@@ -5,8 +5,12 @@ import { Theatre } from "@/theatres/interfaces/theatre.interface";
 import CityModel from "@/cities/entities/city.entity";
 import { HttpException } from "@/exceptions/HttpException";
 import { Paginations } from "@/dtos/Paginaion";
+import { TheatresMoviesDTO } from "./dtos/theatres.movies.dto";
+import MovieService from "@/movies/movies.service";
+import TheatresMoviesModel from "@/theatres/entities/theatres_movies.entities";
 
 class TheatreService {
+    public movieService = new MovieService();
     public list = async (pagination: Paginations): Promise<Theatre[]> => {
         const { page, limit } = pagination;
         return await TheatreModel.find({ deleted_at: null }).skip((page-1) * limit).limit(limit);
@@ -22,6 +26,21 @@ class TheatreService {
         const newData = await TheatreModel.create(theatreDTO);
         const theatre = await newData.save();
         return theatre._id;
+    }
+    public theatreMovieCreate = async (theatreMovieDTO: TheatresMoviesDTO): Promise<ObjectId> => {
+        const movie = await this.movieService.getById(theatreMovieDTO.movie_id);
+        const theatre = await this.getById(theatreMovieDTO.theatre_id);
+        if (!movie) throw new HttpException(400, "Movie not found");
+        if (!theatre) throw new HttpException(400, "Theatre not found");
+        const newData = await TheatresMoviesModel.create({
+          movie_id: theatreMovieDTO.movie_id,
+          theatre_id: theatreMovieDTO.theatre_id,
+          show_times: theatreMovieDTO.show_times,
+          start_date: theatreMovieDTO.start_date,
+          end_date: theatreMovieDTO.end_date
+        });
+        const theatreMovie = await newData.save();
+        return theatreMovie._id;
     }
     public update = async (
         id: string,

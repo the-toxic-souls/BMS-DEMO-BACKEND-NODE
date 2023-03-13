@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
 import { Paginations } from "@/dtos/Paginaion";
+import { HttpException } from "@/exceptions/HttpException";
 
 class MovieController {
     public movieService = new MovieService();
@@ -43,8 +44,6 @@ class MovieController {
             const id = await this.movieService.create(movieData);
            res.status(201).json({status: true, message: `${id} created successfully`})
         }catch (err) {
-            console.log(err);
-
             next(err)
         }
     }
