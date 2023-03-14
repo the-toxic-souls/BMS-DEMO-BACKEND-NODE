@@ -18,9 +18,6 @@ class Movie {
     @Prop({ type: String, required: true, unique: true, index: true })
     public name: string;
 
-    @Prop({ type: Date, required: true, index: true, default: new Date()})
-    public release_date: Date;
-
     @Prop({ type: Number, required: true, default: 0})
     public duration: number;
 

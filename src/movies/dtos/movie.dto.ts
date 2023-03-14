@@ -11,10 +11,6 @@ export class MovieDTO {
     name: string;
 
     @IsNotEmpty()
-    @IsString()
-    release_date: Date;
-
-    @IsNotEmpty()
     @IsNumber()
     duration: number;
 

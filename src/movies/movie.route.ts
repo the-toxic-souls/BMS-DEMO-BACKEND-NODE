@@ -5,11 +5,12 @@ import { Router } from "express";
 import validationMiddleware from "@/middlewares/validation.middleware";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Paginations } from "@/dtos/Paginaion";
-
+import multer from 'multer';
 class MovieRoutes implements Routes {
    public path: string = '/movies';
    public router = Router();
    public movieController = new MovieController();
+   public upload = multer();
    constructor() {
     this.initializedRoutes();
    }
@@ -17,7 +18,7 @@ class MovieRoutes implements Routes {
       this.router.get(`${this.path}/list`, validationMiddleware(Paginations, 'query'), this.movieController.list);
       this.router.get(`${this.path}/count`, this.movieController.count);
       this.router.get(`${this.path}/get/:id`, this.movieController.getById);
-      this.router.post(`${this.path}/create`, AuthMiddleware.auth, validationMiddleware(MovieDTO, 'body'), this.movieController.create);
+      this.router.post(`${this.path}/create`, AuthMiddleware.auth, this.movieController.create);
       this.router.put(`${this.path}/update/:id`, AuthMiddleware.auth, validationMiddleware(MovieDTO), this.movieController.update);
       this.router.delete(`${this.path}/delete/:id`, AuthMiddleware.auth, this.movieController.delete);
    }

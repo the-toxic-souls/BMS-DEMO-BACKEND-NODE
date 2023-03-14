@@ -4,6 +4,7 @@ import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
 import { Paginations } from "@/dtos/Paginaion";
 import { HttpException } from "@/exceptions/HttpException";
+import upload from "@/middlewares/upload";
 
 class MovieController {
     public movieService = new MovieService();
@@ -40,10 +41,13 @@ class MovieController {
     }
     public create = async( req: Request, res: Response, next: NextFunction) => {
         try{
+            await upload(req, res)
             const movieData: MovieDTO = req.body;
             const id = await this.movieService.create(movieData);
-           res.status(201).json({status: true, message: `${id} created successfully`})
+           res.status(201).json({status: true, message: req.files})
         }catch (err) {
+            console.log(err);
+
             next(err)
         }
     }

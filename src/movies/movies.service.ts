@@ -20,6 +20,8 @@ class MovieService {
     return movie;
 }
   public create = async (movieData: MovieDTO): Promise<ObjectId> => {
+    console.log(movieData);
+
     const newData = await MovieModel.create(movieData);
     const createdData = await newData.save();
     return createdData._id;
