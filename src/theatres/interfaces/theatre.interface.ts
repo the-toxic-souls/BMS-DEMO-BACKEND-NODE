@@ -6,6 +6,7 @@ export interface Theatre {
     seat: number;
     seat_layouts: string;
     types: string;
-    category: string;
+    isAC: boolean;
+    isNonAC: boolean;
     description: string;
 }

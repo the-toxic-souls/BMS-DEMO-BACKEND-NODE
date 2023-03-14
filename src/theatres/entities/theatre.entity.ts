@@ -34,8 +34,11 @@ export class Theatre {
   @Prop({ type: String, required: false, enum: ["proscenium", "thrust", "arena", "found"], default: "found", index: true})
   public types: string;
 
-  @Prop({ type: String, required: false, enum: ["ac", "non-ac", "both"], default: "non-a/c", index: true })
-  public category: string;
+  @Prop({ type: Boolean, required: true, index: true, default: false })
+  public isAC: boolean;
+
+  @Prop({ type: Boolean, required: true, index: true, default: false })
+  public isNonAC: boolean;
 
   @Prop({ type: String, required: false })
   public description: string;

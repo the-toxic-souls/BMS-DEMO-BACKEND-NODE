@@ -21,7 +21,9 @@ class TheatreRoutes implements Routes {
         this.router.delete(`${this.path}/delete/:id`, AuthMiddleware.auth, this.theatreController.delete);
 
         this.router.post(`${this.path}/save-theatre-movie-slot`, AuthMiddleware.auth, validationMiddleware(TheatresMoviesDTO, 'body'), this.theatreController.theatreMovieCreate);
+        this.router.delete(`${this.path}/save-theatre-movie-slot/:id`, AuthMiddleware.auth, this.theatreController.theatreMovieDelete);
 
+        this.router.get(`${this.path}/getMovies/:cityId`, this.theatreController.getMoviesByCityId);
     }
 }
 export default TheatreRoutes;

@@ -8,6 +8,7 @@ import { Paginations } from "@/dtos/Paginaion";
 import { TheatresMoviesDTO } from "./dtos/theatres.movies.dto";
 import MovieService from "@/movies/movies.service";
 import TheatresMoviesModel from "@/theatres/entities/theatres_movies.entities";
+import { Movie } from "@/movies/interfaces/movie";
 
 class TheatreService {
     public movieService = new MovieService();
@@ -19,6 +20,18 @@ class TheatreService {
         const theatre: Theatre = await TheatreModel.findById({_id: new Types.ObjectId(id), deleted_at: null});
         if (!theatre) throw new HttpException(400, "theatre not found")
         return theatre;
+    }
+    public getMoviesByCityId = async (id: string): Promise<Movie[]> => {
+        const city = await CityModel.findById(new Types.ObjectId(id));
+        if(!city) throw new HttpException(400, "city not found");
+        const movies: Movie[] = await TheatresMoviesModel.aggregate([
+          {
+            $match: {
+              city_id: id
+            }
+          }
+        ])
+        return movies;
     }
     public create = async (theatreDTO: TheatreDTO): Promise<ObjectId> => {
         const city = await CityModel.findById(theatreDTO.city_id);
@@ -67,6 +80,21 @@ class TheatreService {
           { upsert: false, new: false }
         );
         if (!updateMovie.modifiedCount)
+          throw new HttpException(409, `${id} already deleted`);
+      };
+      public theatreMovieDelete = async (id: string): Promise<void> => {
+        const theatresMovies = await TheatresMoviesModel.findById(new Types.ObjectId(id));
+        if (!theatresMovies) throw new HttpException(400, "theatreMovies not found");
+        const updateTheatresMovies = await TheatresMoviesModel.updateOne(
+          { _id: new Types.ObjectId(id) },
+          {
+            $set: {
+              deleted_at: new Date(Date.now()),
+            },
+          },
+          { upsert: false, new: false }
+        );
+        if (!updateTheatresMovies.modifiedCount)
           throw new HttpException(409, `${id} already deleted`);
       };
 }

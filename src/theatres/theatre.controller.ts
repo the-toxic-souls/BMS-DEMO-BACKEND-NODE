@@ -28,6 +28,15 @@ class TheatreController{
             next(err);
         }
     }
+    public getMoviesByCityId = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const id = req.params.cityId;
+            const getMovies = await this.theatreService.getMoviesByCityId(id);
+            res.status(200).json({status: true, data: getMovies})
+        }catch(err){
+            next(err);
+        }
+    }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const theatreDTO: TheatreDTO = req.body;
@@ -42,6 +51,15 @@ class TheatreController{
             const theatreMovieDTO: TheatresMoviesDTO = req.body;
             const id = await this.theatreService.theatreMovieCreate(theatreMovieDTO)
             res.status(201).json({status: true, message: `${id} created successfully` })
+        }catch(err){
+            next(err);
+        }
+    }
+    public theatreMovieDelete = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const id = req.params.id;
+            await this.theatreService.theatreMovieDelete(id)
+            res.status(201).json({status: true, message: `${id} deleted successfully` })
         }catch(err){
             next(err);
         }

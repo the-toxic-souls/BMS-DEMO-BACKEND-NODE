@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
 } from "class-validator";
-import MovieModel from "@/movies/entities/movie.model";
+import MovieModel from "@/movies/entities/movie.entity";
 import TheatreModel from "@/theatres/entities/theatre.entity";
 import CityModel from "@/cities/entities/city.entity";
 import TheatresMoviesModel from "@/theatres/entities/theatres_movies.entities";

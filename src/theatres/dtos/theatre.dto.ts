@@ -2,6 +2,7 @@ import { IsNameAlreadyExist } from "@/custom_decorators";
 import { Type } from "class-transformer";
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsMobilePhone,
   IsMongoId,
@@ -23,12 +24,6 @@ enum Types {
   THRUST = "thrust",
   ARENA = "arena",
   FOUND = "found",
-}
-
-enum Category{
-  AC = "ac",
-  NON_AC = "non-ac",
-  BOTH = "both"
 }
 export class TheatreDTO {
   @IsNotEmpty()
@@ -60,9 +55,11 @@ export class TheatreDTO {
   @IsEnum(Types)
   public types: Types;
 
-  @IsOptional()
-  @IsEnum(Category)
-  public category: Category;
+  @IsBoolean()
+  public isAC: boolean;
+
+  @IsBoolean()
+  public isNonAC: boolean;
 
   @IsOptional()
   @IsString()

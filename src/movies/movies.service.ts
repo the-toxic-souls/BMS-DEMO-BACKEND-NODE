@@ -1,4 +1,4 @@
-import MovieModel from "@/movies/entities/movie.model";
+import MovieModel from "@/movies/entities/movie.entity";
 import { ObjectId, Types } from "mongoose";
 import { MovieDTO } from "@/movies/dtos/movie.dto";
 import { Movie } from "@/movies/interfaces/movie";
